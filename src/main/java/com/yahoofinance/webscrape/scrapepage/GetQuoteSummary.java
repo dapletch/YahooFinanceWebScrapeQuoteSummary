@@ -18,9 +18,11 @@ public class GetQuoteSummary {
     private String cssQuery = "td[class=\"Ta(end) Fw(b)\"]";
 
     public QuoteSummary getQuoteSummary(String tickerSymbol) {
+        // Instantiating new instance of the Quote Summary Class
+        QuoteSummary quoteSummary = new QuoteSummary();
         try {
             Document doc = Jsoup.connect("https://finance.yahoo.com/quote/" + tickerSymbol).get();
-            QuoteSummary quoteSummary = new QuoteSummary();
+            quoteSummary.setTickerSymbol(tickerSymbol);
             quoteSummary.setPreviousClosingPrice(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(0).text()));
             quoteSummary.setOpeningPrice(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(1).text()));
 
@@ -44,20 +46,28 @@ public class GetQuoteSummary {
             quoteSummary.setVolume(WebScrapeUtils.removeCommasReturnInteger(doc.select(cssQuery).get(6).text()));
             quoteSummary.setAvgVolume(WebScrapeUtils.removeCommasReturnInteger(doc.select(cssQuery).get(7).text()));
 
-            quoteSummary.setMarketCap(WebScrapeUtils.stringToBigDecimal(doc.select(cssQuery).get(8).text()));
+            quoteSummary.setMarketCap(WebScrapeUtils.stringToLong(doc.select(cssQuery).get(8).text()));
             quoteSummary.setBeta(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(9).text()));
             quoteSummary.setPeRatioTtm(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(10).text()));
             quoteSummary.setEpsTtm(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(11).text()));
             quoteSummary.setEarningsDateStart(WebScrapeUtils.getEarningsStartDate(doc.select(cssQuery).get(12).text()));
             quoteSummary.setGetEarningsDateEnd(WebScrapeUtils.getEarningsEndDate(doc.select(cssQuery).get(12).text()));
 
-            //TODO Still need to account for the dividend, yield, ex-dividend date, and first year target estimate
+            // Need to return an array of the dividend and yield strings for regular expression needed to be used to extract the values
+            String[] dividendYieldArray = WebScrapeUtils.getDividendYieldArray(doc.select(cssQuery).get(13).text());
+            if (dividendYieldArray != null) {
+                quoteSummary.setDividend(WebScrapeUtils.stringToDouble(dividendYieldArray[0]));
+                quoteSummary.setYield(WebScrapeUtils.stringToDouble(dividendYieldArray[1]));
+            }
+
+            quoteSummary.setExDividendDate(WebScrapeUtils.stringToDateTime(doc.select(cssQuery).get(14).text()));
+            quoteSummary.setFirstYearEstimate(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(15).text()));
 
             logger.info("QuoteSummary String: " + quoteSummary.toString());
             logger.info("QuoteSummary HashCode: " + quoteSummary.hashCode());
         } catch (IOException e) {
             logger.error("An error occurred while trying to retrieve the information from Yahoo Finance: \n" + e);
         }
-        return null;
+        return quoteSummary;
     }
 }

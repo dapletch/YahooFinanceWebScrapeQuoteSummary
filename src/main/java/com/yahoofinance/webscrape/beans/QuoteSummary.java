@@ -10,6 +10,7 @@ import java.math.BigInteger;
  */
 public class QuoteSummary {
 
+    private String tickerSymbol;
     private Double previousClosingPrice;
     private Double openingPrice;
     private Double bidOffer;
@@ -22,7 +23,7 @@ public class QuoteSummary {
     private Double fiftyWeekRangeEnd;
     private Integer volume;
     private Integer avgVolume;
-    private BigDecimal marketCap;
+    private Long marketCap;
     private Double beta;
     private Double peRatioTtm;
     private Double epsTtm;
@@ -35,6 +36,14 @@ public class QuoteSummary {
 
     public QuoteSummary() {
         super();
+    }
+
+    public String getTickerSymbol() {
+        return tickerSymbol;
+    }
+
+    public void setTickerSymbol(String tickerSymbol) {
+        this.tickerSymbol = tickerSymbol;
     }
 
     public Double getPreviousClosingPrice() {
@@ -133,11 +142,11 @@ public class QuoteSummary {
         this.avgVolume = avgVolume;
     }
 
-    public BigDecimal getMarketCap() {
+    public Long getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(BigDecimal marketCap) {
+    public void setMarketCap(Long marketCap) {
         this.marketCap = marketCap;
     }
 
@@ -216,7 +225,8 @@ public class QuoteSummary {
     @Override
     public String toString() {
         return "QuoteSummary{" +
-                "previousClosingPrice=" + previousClosingPrice +
+                "tickerSymbol='" + tickerSymbol + '\'' +
+                ", previousClosingPrice=" + previousClosingPrice +
                 ", openingPrice=" + openingPrice +
                 ", bidOffer=" + bidOffer +
                 ", bidQuantity=" + bidQuantity +
@@ -227,7 +237,7 @@ public class QuoteSummary {
                 ", fiftyWeekRangeStart=" + fiftyWeekRangeStart +
                 ", fiftyWeekRangeEnd=" + fiftyWeekRangeEnd +
                 ", volume=" + volume +
-                ", avgVoume=" + avgVolume +
+                ", avgVolume=" + avgVolume +
                 ", marketCap=" + marketCap +
                 ", beta=" + beta +
                 ", peRatioTtm=" + peRatioTtm +
@@ -242,8 +252,59 @@ public class QuoteSummary {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QuoteSummary)) return false;
+
+        QuoteSummary that = (QuoteSummary) o;
+
+        if (getTickerSymbol() != null ? !getTickerSymbol().equals(that.getTickerSymbol()) : that.getTickerSymbol() != null)
+            return false;
+        if (getPreviousClosingPrice() != null ? !getPreviousClosingPrice().equals(that.getPreviousClosingPrice()) : that.getPreviousClosingPrice() != null)
+            return false;
+        if (getOpeningPrice() != null ? !getOpeningPrice().equals(that.getOpeningPrice()) : that.getOpeningPrice() != null)
+            return false;
+        if (getBidOffer() != null ? !getBidOffer().equals(that.getBidOffer()) : that.getBidOffer() != null)
+            return false;
+        if (getBidQuantity() != null ? !getBidQuantity().equals(that.getBidQuantity()) : that.getBidQuantity() != null)
+            return false;
+        if (getAskingPrice() != null ? !getAskingPrice().equals(that.getAskingPrice()) : that.getAskingPrice() != null)
+            return false;
+        if (getAskingQuantity() != null ? !getAskingQuantity().equals(that.getAskingQuantity()) : that.getAskingQuantity() != null)
+            return false;
+        if (getDaysRangeStart() != null ? !getDaysRangeStart().equals(that.getDaysRangeStart()) : that.getDaysRangeStart() != null)
+            return false;
+        if (getDaysRangeEnd() != null ? !getDaysRangeEnd().equals(that.getDaysRangeEnd()) : that.getDaysRangeEnd() != null)
+            return false;
+        if (getFiftyWeekRangeStart() != null ? !getFiftyWeekRangeStart().equals(that.getFiftyWeekRangeStart()) : that.getFiftyWeekRangeStart() != null)
+            return false;
+        if (getFiftyWeekRangeEnd() != null ? !getFiftyWeekRangeEnd().equals(that.getFiftyWeekRangeEnd()) : that.getFiftyWeekRangeEnd() != null)
+            return false;
+        if (getVolume() != null ? !getVolume().equals(that.getVolume()) : that.getVolume() != null) return false;
+        if (getAvgVolume() != null ? !getAvgVolume().equals(that.getAvgVolume()) : that.getAvgVolume() != null)
+            return false;
+        if (getMarketCap() != null ? !getMarketCap().equals(that.getMarketCap()) : that.getMarketCap() != null)
+            return false;
+        if (getBeta() != null ? !getBeta().equals(that.getBeta()) : that.getBeta() != null) return false;
+        if (getPeRatioTtm() != null ? !getPeRatioTtm().equals(that.getPeRatioTtm()) : that.getPeRatioTtm() != null)
+            return false;
+        if (getEpsTtm() != null ? !getEpsTtm().equals(that.getEpsTtm()) : that.getEpsTtm() != null) return false;
+        if (getEarningsDateStart() != null ? !getEarningsDateStart().equals(that.getEarningsDateStart()) : that.getEarningsDateStart() != null)
+            return false;
+        if (getGetEarningsDateEnd() != null ? !getGetEarningsDateEnd().equals(that.getGetEarningsDateEnd()) : that.getGetEarningsDateEnd() != null)
+            return false;
+        if (getDividend() != null ? !getDividend().equals(that.getDividend()) : that.getDividend() != null)
+            return false;
+        if (getYield() != null ? !getYield().equals(that.getYield()) : that.getYield() != null) return false;
+        if (getExDividendDate() != null ? !getExDividendDate().equals(that.getExDividendDate()) : that.getExDividendDate() != null)
+            return false;
+        return getFirstYearEstimate() != null ? getFirstYearEstimate().equals(that.getFirstYearEstimate()) : that.getFirstYearEstimate() == null;
+    }
+
+    @Override
     public int hashCode() {
-        int result = getPreviousClosingPrice() != null ? getPreviousClosingPrice().hashCode() : 0;
+        int result = getTickerSymbol() != null ? getTickerSymbol().hashCode() : 0;
+        result = 31 * result + (getPreviousClosingPrice() != null ? getPreviousClosingPrice().hashCode() : 0);
         result = 31 * result + (getOpeningPrice() != null ? getOpeningPrice().hashCode() : 0);
         result = 31 * result + (getBidOffer() != null ? getBidOffer().hashCode() : 0);
         result = 31 * result + (getBidQuantity() != null ? getBidQuantity().hashCode() : 0);

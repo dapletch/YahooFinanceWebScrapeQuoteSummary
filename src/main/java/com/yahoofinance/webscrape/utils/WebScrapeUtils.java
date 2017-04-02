@@ -2,11 +2,13 @@ package com.yahoofinance.webscrape.utils;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,6 +137,14 @@ public class WebScrapeUtils {
 
     private static Boolean isStringNonApplicable(String naStr) {
         return naStr.trim().equals("N/A") || naStr.trim().equals("N/A (N/A)");
+    }
+
+    // TODO look into a better way of converting DateTime to Date - this was the only way that seemed to work
+    public static Date dateTimeToDate(DateTime dateTime) {
+        if (dateTime != null) {
+            return new Date(String.valueOf(dateTime));
+        }
+        return null;
     }
 
 }

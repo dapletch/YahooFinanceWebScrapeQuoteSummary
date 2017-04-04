@@ -9,8 +9,6 @@ import com.yahoofinance.webscrape.utils.WebScrapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-
 /**
  * Created by Seth on 4/2/2017.
  */
@@ -29,8 +27,8 @@ public class InsertRecordIntoMongoDb {
         logger.info("Basic MongoDB Example...");
         BasicDBObject document = new BasicDBObject();
         document.put("ticker_symbol", quoteSummary.getTickerSymbol());
-        document.put("previous_close", quoteSummary.getPreviousClosingPrice());
-        document.put("open", quoteSummary.getOpeningPrice());
+        document.put("prv_close_price", quoteSummary.getPreviousClosingPrice());
+        document.put("opening_price", quoteSummary.getOpeningPrice());
 
         // Detail for bid object in the yahoo_finance collection
         BasicDBObject bid = new BasicDBObject();
@@ -54,7 +52,7 @@ public class InsertRecordIntoMongoDb {
         BasicDBObject fiftyTwoWkRange = new BasicDBObject();
         fiftyTwoWkRange.put("start", quoteSummary.getFiftyWeekRangeStart());
         fiftyTwoWkRange.put("end", quoteSummary.getFiftyWeekRangeEnd());
-        document.put("day_range", fiftyTwoWkRange);
+        document.put("fifty_wk_range", fiftyTwoWkRange);
 
         document.put("volume", quoteSummary.getVolume());
         document.put("avg_volume", quoteSummary.getAvgVolume());
@@ -75,9 +73,9 @@ public class InsertRecordIntoMongoDb {
         dividendYield.put("yield", quoteSummary.getYield());
         document.put("dividend_yield", dividendYield);
 
-        document.put("ex_dividend", WebScrapeUtils.dateTimeToDate(quoteSummary.getExDividendDate()));
+        document.put("ex_dividend_dt", WebScrapeUtils.dateTimeToDate(quoteSummary.getExDividendDate()));
         document.put("first_year_target", quoteSummary.getFirstYearEstimate());
-        document.put("entered_dt", new Date());
+        document.put("entered_dt", quoteSummary.getDateEntered());
 
         // Inserting the record
         collection.insert(document);

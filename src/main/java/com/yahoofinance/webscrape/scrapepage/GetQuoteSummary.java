@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Seth on 4/1/2017.
@@ -62,6 +63,7 @@ public class GetQuoteSummary {
 
             quoteSummary.setExDividendDate(WebScrapeUtils.stringToDateTime(doc.select(cssQuery).get(14).text()));
             quoteSummary.setFirstYearEstimate(WebScrapeUtils.stringToDouble(doc.select(cssQuery).get(15).text()));
+            quoteSummary.setDateEntered(new Date());
 
             logger.info("QuoteSummary String: " + quoteSummary.toString());
             logger.info("QuoteSummary HashCode: " + quoteSummary.hashCode());

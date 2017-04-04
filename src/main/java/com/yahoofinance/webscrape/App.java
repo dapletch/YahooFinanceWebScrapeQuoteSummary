@@ -2,6 +2,7 @@ package com.yahoofinance.webscrape;
 
 
 import com.yahoofinance.webscrape.dao.InsertRecordIntoMongoDb;
+import com.yahoofinance.webscrape.dao.RetrieveRecordsFromMongoDb;
 import com.yahoofinance.webscrape.scrapepage.GetQuoteSummary;
 import com.yahoofinance.webscrape.utils.WebScrapeUtils;
 import org.slf4j.Logger;
@@ -22,7 +23,11 @@ public class App {
             logger.info("The ticker symbol provided is valid. Proceeding with data Quote Summary retrieval.");
             GetQuoteSummary getQuoteSummary = new GetQuoteSummary();
             InsertRecordIntoMongoDb insertRecordIntoMongoDb = new InsertRecordIntoMongoDb();
-            insertRecordIntoMongoDb.inserQuoteSummaryIntoMongoDb(getQuoteSummary.getQuoteSummary(args[0]));
+            RetrieveRecordsFromMongoDb retrieveRecordsFromMongoDb = new RetrieveRecordsFromMongoDb();
+
+            insertRecordIntoMongoDb.inserQuoteSummaryIntoMongoDb(getQuoteSummary.getQuoteSummary(args[0].toUpperCase()));
+            // Retrieve and print out mongodb objects using apache drill
+            retrieveRecordsFromMongoDb.printQuoteSummaryObjects(retrieveRecordsFromMongoDb.getQuoteSummariesFromMongoDb());
         } else {
             logger.error("The ticker symbol provided was not valid. Please try again. Input Entered: " + args[0]);
             System.exit(0);

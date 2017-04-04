@@ -147,4 +147,12 @@ public class WebScrapeUtils {
         return null;
     }
 
+    public static DateTime sqlDateToDateTime(String dateStr) {
+        logger.info("DateStr: " + dateStr);
+        if (dateStr == null) {
+            return null;
+        }
+        return DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd")).toDateTime();
+    }
+
 }

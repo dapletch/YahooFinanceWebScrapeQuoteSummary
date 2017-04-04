@@ -1,6 +1,6 @@
 package com.yahoofinance.webscrape;
 
-import com.yahoofinance.webscrape.beans.QuoteSummary;
+import com.yahoofinance.webscrape.dao.RetrieveRecordsFromMongoDb;
 import com.yahoofinance.webscrape.scrapepage.GetQuoteSummary;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -55,5 +55,10 @@ public class AppTest extends TestCase {
         if (marketCapStr.contains("B")) {
             logger.info(String.valueOf(number.longValue() * 1000000000));
         }
+    }
+
+    public void testRetrievingRecordsFromMongoUsingDrill() {
+        RetrieveRecordsFromMongoDb retrieveRecordsFromMongoDb = new RetrieveRecordsFromMongoDb();
+        retrieveRecordsFromMongoDb.printQuoteSummaryObjects(retrieveRecordsFromMongoDb.getQuoteSummariesFromMongoDb());
     }
 }

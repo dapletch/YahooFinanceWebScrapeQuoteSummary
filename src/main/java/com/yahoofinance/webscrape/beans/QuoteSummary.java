@@ -2,8 +2,7 @@ package com.yahoofinance.webscrape.beans;
 
 import org.joda.time.DateTime;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Date;
 
 /**
  * Created by Seth on 4/1/2017.
@@ -33,6 +32,7 @@ public class QuoteSummary {
     private Double yield;
     private DateTime exDividendDate;
     private Double firstYearEstimate;
+    private Date dateEntered;
 
     public QuoteSummary() {
         super();
@@ -222,6 +222,14 @@ public class QuoteSummary {
         this.firstYearEstimate = firstYearEstimate;
     }
 
+    public Date getDateEntered() {
+        return dateEntered;
+    }
+
+    public void setDateEntered(Date dateEntered) {
+        this.dateEntered = dateEntered;
+    }
+
     @Override
     public String toString() {
         return "QuoteSummary{" +
@@ -248,6 +256,7 @@ public class QuoteSummary {
                 ", yield=" + yield +
                 ", exDividendDate=" + exDividendDate +
                 ", firstYearEstimate=" + firstYearEstimate +
+                ", dateEntered=" + dateEntered +
                 '}';
     }
 
@@ -298,7 +307,9 @@ public class QuoteSummary {
         if (getYield() != null ? !getYield().equals(that.getYield()) : that.getYield() != null) return false;
         if (getExDividendDate() != null ? !getExDividendDate().equals(that.getExDividendDate()) : that.getExDividendDate() != null)
             return false;
-        return getFirstYearEstimate() != null ? getFirstYearEstimate().equals(that.getFirstYearEstimate()) : that.getFirstYearEstimate() == null;
+        if (getFirstYearEstimate() != null ? !getFirstYearEstimate().equals(that.getFirstYearEstimate()) : that.getFirstYearEstimate() != null)
+            return false;
+        return getDateEntered() != null ? getDateEntered().equals(that.getDateEntered()) : that.getDateEntered() == null;
     }
 
     @Override
@@ -326,6 +337,7 @@ public class QuoteSummary {
         result = 31 * result + (getYield() != null ? getYield().hashCode() : 0);
         result = 31 * result + (getExDividendDate() != null ? getExDividendDate().hashCode() : 0);
         result = 31 * result + (getFirstYearEstimate() != null ? getFirstYearEstimate().hashCode() : 0);
+        result = 31 * result + (getDateEntered() != null ? getDateEntered().hashCode() : 0);
         return result;
     }
 }

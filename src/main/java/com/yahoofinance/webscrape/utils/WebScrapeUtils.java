@@ -2,7 +2,6 @@ package com.yahoofinance.webscrape.utils;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
@@ -149,10 +148,10 @@ public class WebScrapeUtils {
 
     public static DateTime sqlDateToDateTime(String dateStr) {
         logger.info("DateStr: " + dateStr);
-        if (dateStr == null) {
-            return null;
+        if (dateStr != null) {
+            return DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd")).toDateTime();
         }
-        return DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd")).toDateTime();
+        return null;
     }
 
 }

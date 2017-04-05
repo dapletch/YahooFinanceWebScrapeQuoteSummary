@@ -18,8 +18,9 @@ public class RetrieveRecordsFromMongoDb {
 
     private Logger logger = LoggerFactory.getLogger(RetrieveRecordsFromMongoDb.class);
     private List<QuoteSummary> quoteSummaryList = new ArrayList<QuoteSummary>();
-
+    // url for format for apache drill installed via embedded mode, the format would be different if the format was distributed
     private String url = "jdbc:drill:drillbit=localhost";
+
     private String query = "select b.ticker_symbol\n" +
             ", b.prv_close_price\n" +
             ", b.opening_price\n" +
@@ -87,7 +88,17 @@ public class RetrieveRecordsFromMongoDb {
                 quoteSummaryList.add(quoteSummary);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("There was an error retrieving the records: \n" + e);
+        } finally {
+            // Closing the resources
+            if (statement != null || connection != null || resultSet != null)
+                try {
+                    statement.close();
+                    connection.close();
+                    resultSet.close();
+                } catch (SQLException e) {
+                    logger.error("There was a problem with closing one of the resources: \n" + e);
+                }
         }
         return quoteSummaryList;
     }

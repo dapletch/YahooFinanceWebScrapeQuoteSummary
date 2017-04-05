@@ -44,7 +44,9 @@
       <artifactId>mongo-java-driver</artifactId>
       <version>3.4.2</version>
     </dependency>
-    <!-- JDBC for Apache Drill -->
+    <!-- JDBC for Apache Drill
+    TODO Need to figure out which dependencies are overlapping and are causing the JNI error
+    example Error: A JNI error has occurred, please check your installation and try again -->
     <dependency>
       <groupId>org.apache.drill.exec</groupId>
       <artifactId>drill-jdbc</artifactId>
@@ -64,6 +66,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <minimizeJar>true</minimizeJar>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
@@ -76,7 +79,27 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.4.1</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <configuration>
+              <rules>
+                <requireUpperBoundDeps>
+                  <uniqueVersions>true</uniqueVersions>
+                </requireUpperBoundDeps>
+              </rules>
+            </configuration>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      </plugins>
     <!-- The name of the jar to be created from the project -->
     <finalName>YahooFinanceWebScrape</finalName>
   </build>
